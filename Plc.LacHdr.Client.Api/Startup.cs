@@ -49,7 +49,7 @@ namespace Plc.LacHdr.Api
                     options.DefaultScheme = "Cookies";
                     options.DefaultChallengeScheme = "oidc";
                 })
-                .AddCookie("Cookies")
+                .AddCookie("Cookies", options => { options.ExpireTimeSpan = TimeSpan.FromMinutes(1); })
                 .AddOpenIdConnect("oidc", options =>
                 {
                     options.Authority = "https://localhost:5001";

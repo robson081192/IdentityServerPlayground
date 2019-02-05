@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
@@ -40,24 +37,12 @@ namespace Plc.IdentityServer
             {
                 new Client
                 {
-                    ClientId = "Plc.LacHdr.Api.Client",
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets =
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    AllowedScopes = { "Plc.LacHdr.Api" }
-                },
-                new Client()
-                {
                     ClientId = "Plc.LacHdr.Client.Mvc",
                     AllowedGrantTypes = GrantTypes.Hybrid,
                     ClientSecrets =
                     {
                         new Secret("secret".Sha256())
                     },
-                    //RequirePkce = true,
-                    //RequireClientSecret = false,
                     AllowOfflineAccess = true,
                     RedirectUris = { "https://localhost:5021/signin-oidc" },
                     PostLogoutRedirectUris = { "https://localhost:5021/signout-callback-oidc" },
@@ -70,11 +55,33 @@ namespace Plc.IdentityServer
                         "Plc.LacHdr.Api"
                     }
                 },
-                new Client()
+                new Client
                 {
-                    ClientId = "Plc.LacHdr.Client.AngularCli",
-                    ClientName = "Plain Angular Cli Client",
+                    ClientId = "Plc.LacHdr.Client.AngularCli.Implicit",
+                    ClientName = "Plain Angular Cli Client (Implicit)",
                     AllowedGrantTypes = GrantTypes.Implicit,
+                    RedirectUris = new List<string> { "http://localhost:4200/auth-callback" },
+                    PostLogoutRedirectUris = new List<string> { "http://localhost:4200/" },
+                    AllowedCorsOrigins = { "http://localhost:4200" },
+                    AllowAccessTokensViaBrowser = true,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "Plc.LacHdr.Api"
+                    }
+                },
+                new Client
+                {
+                    ClientId = "Plc.LacHdr.Client.AngularCli.AuthCode",
+                    ClientName = "Plain Angular Cli Client (Authorization Code)",
+                    ClientSecrets = new List<Secret>
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequireClientSecret = true,
+                    //RequirePkce = true,
                     RedirectUris = new List<string> { "http://localhost:4200/auth-callback" },
                     PostLogoutRedirectUris = new List<string> { "http://localhost:4200/" },
                     AllowedCorsOrigins = { "http://localhost:4200" },

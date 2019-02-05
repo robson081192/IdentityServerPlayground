@@ -27,7 +27,7 @@ namespace Plc.LacHdr.Client.Console
             {
                 Address = disco.TokenEndpoint,
 
-                ClientId = "Plc.LacHdr.Api.Client",
+                ClientId = "Plc.LacHdr.Client.Console",
                 ClientSecret = "secret",
                 Scope = "Plc.LacHdr.Api"
             }).Result;
